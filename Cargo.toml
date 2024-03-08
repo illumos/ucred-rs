@@ -1,6 +1,6 @@
 [package]
 name = "ucred"
-version = "1.0.0"
+version = "1.0.1"
 edition = "2021"
 license = "MPL-2.0"
 description = "safe access to ucred(3C), user credentials for processes"
@@ -9,3 +9,7 @@ repository = "https://github.com/illumos/ucred-rs"
 
 [dependencies]
 libc = "0.2"
+
+[package.metadata.docs.rs]
+default-target = "x86_64-unknown-illumos"
+targets = []
