@@ -19,5 +19,5 @@ another is left to site-specific policies and systems.
 
 ## Licence
 
-Unless otherwise noted, all components are licenced under the [Mozilla Public
-License Version 2.0](./LICENSE).
+Unless otherwise noted, all components are dual-licenced under either the [MIT
+Licence](./LICENSE-MIT) or the [Apache License Version 2.0](./LICENSE-APACHE).

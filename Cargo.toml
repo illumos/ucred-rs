@@ -2,7 +2,7 @@
 name = "ucred"
 version = "1.0.1"
 edition = "2021"
-license = "MPL-2.0"
+license = "MIT OR Apache-2.0"
 description = "safe access to ucred(3C), user credentials for processes"
 keywords = ["ucred", "illumos"]
 repository = "https://github.com/illumos/ucred-rs"
