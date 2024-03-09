@@ -11,7 +11,7 @@
 use ucred::UCred;
 
 fn main() -> std::io::Result<()> {
-    let uc = UCred::for_self()?;
+    let uc = UCred::from_self()?;
 
     dbg!(uc.euid());
     dbg!(uc.euser());

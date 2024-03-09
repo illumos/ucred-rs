@@ -30,14 +30,20 @@ impl UCred {
      * Use ucred_get(3C) with the P_MYID argument to get credentials for the
      * current process.
      */
+    pub fn from_self() -> std::io::Result<UCred> {
+        Self::from_pid(P_MYID)
+    }
+
+    #[doc(hidden)]
+    #[deprecated(note = "use from_self() instead")]
     pub fn for_self() -> std::io::Result<UCred> {
-        Self::for_pid(P_MYID)
+        Self::from_self()
     }
 
     /**
      * Use ucred_get(3C) with get credentials for the nominated process.
      */
-    pub fn for_pid(pid: libc::pid_t) -> std::io::Result<UCred> {
+    pub fn from_pid(pid: libc::pid_t) -> std::io::Result<UCred> {
         let uc = unsafe { libc::ucred_get(pid) };
         if uc.is_null() {
             Err(std::io::Error::last_os_error())
@@ -46,11 +52,17 @@ impl UCred {
         }
     }
 
+    #[doc(hidden)]
+    #[deprecated(note = "use from_pid() instead")]
+    pub fn for_pid(pid: libc::pid_t) -> std::io::Result<UCred> {
+        Self::from_pid(pid)
+    }
+
     /**
      * Use getpeerucred(3C) to obtain the credentials of the peer endpoint of a
      * connection-oriented socket (SOCK_STREAM) or stream file descriptor.
      */
-    pub fn for_socket(fd: BorrowedFd) -> std::io::Result<UCred> {
+    pub fn from_socket(fd: BorrowedFd) -> std::io::Result<UCred> {
         let mut uc: *mut libc::ucred_t = std::ptr::null_mut();
         let r = unsafe { libc::getpeerucred(fd.as_raw_fd(), &mut uc) };
         if r == 0 {
@@ -61,13 +73,19 @@ impl UCred {
         }
     }
 
+    #[doc(hidden)]
+    #[deprecated(note = "use from_socket() instead")]
+    pub fn for_socket(fd: BorrowedFd) -> std::io::Result<UCred> {
+        Self::from_socket(fd)
+    }
+
     /**
      * Use door_ucred(3C) to obtain the credentials of the client responsible
      * for the current door invocation.  It only makes sense to call this
      * routine from a door call service procedure that is actively serving a
      * door call.
      */
-    pub fn for_door_call() -> std::io::Result<UCred> {
+    pub fn from_door_call() -> std::io::Result<UCred> {
         let mut uc: *mut libc::ucred_t = std::ptr::null_mut();
         let r = unsafe { door_ucred(&mut uc) };
         if r == 0 {
@@ -76,6 +94,12 @@ impl UCred {
         } else {
             Err(std::io::Error::last_os_error())
         }
+    }
+
+    #[doc(hidden)]
+    #[deprecated(note = "use from_door_call() instead")]
+    pub fn for_door_call() -> std::io::Result<UCred> {
+        Self::from_door_call()
     }
 
     fn common_get_s<T: PartialEq<i32>>(
